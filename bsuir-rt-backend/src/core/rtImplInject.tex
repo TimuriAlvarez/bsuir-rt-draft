@@ -1,0 +1,9 @@
+% ...
+
+\def\rtImplInjectVault{}%
+\NewDocumentCommand{\rtImplInject}{m}{%
+  \IfBlankF{#1}{%
+    % <<DEBUG>> Injecting <<\rtImplInjectVault/#1>>.\\
+    \input{\rtImplInjectVault/#1}%
+  }%
+}%

@@ -1,0 +1,14 @@
+% ...
+
+% META: Queue
+\def\rtImplManifestQueue{}%
+\NewDocumentCommand{\rtImplManifest}{m}{%
+  \IfBlankTF{#1}{%
+    \ifx\rtImplManifestQueue\empty%
+      \rtImplError{rtImplManifestQueue is empty}[rtImplManifest has never been called]%
+    \fi%
+    \begin{document}\rtImplManifestQueue{}\leavevmode\end{document}%
+  }{%
+    \expandafter\def\expandafter\rtImplManifestQueue\expandafter{\rtImplManifestQueue{}#1}%
+  }%
+}%
