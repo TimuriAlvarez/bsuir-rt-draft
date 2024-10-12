@@ -1,11 +1,12 @@
 % ...
 
 % META: Manifest
-\def\rtImplContentsVault{}%
 \NewDocumentCommand{\rtImplContents}{}{%
-  % <<DEBUG>> rtImplContents: <<\rtImplContentsVault>>.\\%
-  \def\rtImplInjectVault{\rtImplPath/contents}%
-  \expandafter\ProcessList\expandafter{\rtImplContentsVault}{\rtImplInject}%
-  % \undef\rtImplContentsVault%
+  \ifdef{\rtImplContentsVault}{%
+    \def\rtImplInjectVault{\rtImplPath/contents}%
+    \expandafter\ProcessList\expandafter{\rtImplContentsVault}{\rtImplInject}%
+    \undef\rtImplInjectVault%
+    \undef\rtImplContentsVault%
+  }{}%
 }%
 \rtImplManifest{\rtImplContents}%

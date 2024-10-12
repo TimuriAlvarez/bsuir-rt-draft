@@ -1,9 +1,8 @@
 % ...
 
-\def\rtImplInjectVault{}%
 \NewDocumentCommand{\rtImplInject}{m}{%
-  \IfBlankF{#1}{%
-    % <<DEBUG>> Injecting <<\rtImplInjectVault/#1>>.\\
-    \input{\rtImplInjectVault/#1}%
+  \ifundef{\rtImplInjectVault}{%
+    \rtImplError{rtImplInjectVault is empty}[rtImplInjectVault was not defined before calling rtImplInject]%
   }%
+  \IfBlankF{#1}{\input{\rtImplInjectVault/#1}}%
 }%

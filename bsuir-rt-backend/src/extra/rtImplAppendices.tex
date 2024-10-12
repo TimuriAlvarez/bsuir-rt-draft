@@ -1,11 +1,12 @@
 % ...
 
 % META: Manifest
-\def\rtImplAppendicesVault{}%
 \NewDocumentCommand{\rtImplAppendices}{}{%
-  % <<DEBUG>> rtImplAppendices: <<\rtImplAppendicesVault>>.\\%
-  \def\rtImplInjectVault{\rtImplPath/pages}%
-  \expandafter\ProcessList\expandafter{\rtImplAppendicesVault}{\rtImplInject}%
-  % \undef\rtImplAppendicesVault%
+  \ifdef{\rtImplAppendicesVault}{%
+    \def\rtImplInjectVault{\rtImplPath/pages}%
+    \expandafter\ProcessList\expandafter{\rtImplAppendicesVault}{\rtImplInject}%
+    \undef\rtImplInjectVault%
+    \undef\rtImplAppendicesVault%
+  }{}%
 }%
 \rtImplManifest{\rtImplAppendices{}}
