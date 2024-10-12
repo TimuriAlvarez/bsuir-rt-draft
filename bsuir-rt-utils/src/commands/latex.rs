@@ -15,7 +15,7 @@ fn impl_manifest() -> String {
 }
 
 fn pdf_latex(project: &str, build_dir: &str) {
-  let manifest: String = [impl_path(project), manifest(build_dir, "backend"), manifest(build_dir, "frontend"), manifest(build_dir, ".."), impl_manifest()].join("");
+  let manifest: String = [impl_path(project), manifest(build_dir, "rules"), manifest(build_dir, "backend"), manifest(build_dir, "frontend"), manifest(build_dir, ".."), impl_manifest()].join("");
   let _ = std::process::Command::new(PDF_LATEX)
     .arg(format!("-output-directory={build_dir}"))
     .arg(manifest)

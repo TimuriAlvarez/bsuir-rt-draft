@@ -55,6 +55,7 @@ pub fn build(project: &str) {
   }
   std::fs::create_dir_all(&build_dir).expect("Failed to create build directory");
   let bsuir_rt: String = bsuir_rt();
+  link(&format!("{bsuir_rt}-rules/src"), &format!("{build_dir}/rules"));
   link(&format!("{bsuir_rt}-backend/src"), &format!("{build_dir}/backend"));
   link(&format!("{bsuir_rt}-frontend/src"), &format!("{build_dir}/frontend"));
   latex::to_pdf(&project, &build_dir);
