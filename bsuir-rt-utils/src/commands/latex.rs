@@ -1,4 +1,4 @@
-const PDF_LATEX: &str = "pdflatex";
+const PDF_LATEX: &str = "xelatex";
 const L: char = '{';
 const R: char = '}';
 
