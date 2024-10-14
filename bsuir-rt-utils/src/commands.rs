@@ -1,6 +1,6 @@
 mod latex;
 
-const EXIT_CODE: i32 = 0xB5;
+const EXIT_CODE: i32 = 0x0C;
 const BSUIR_RT: &str = "~/Public/bsuir-rt-draft/bsuir-rt";
 
 fn bsuir_rt() -> String {
