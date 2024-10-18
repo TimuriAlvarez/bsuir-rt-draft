@@ -22,14 +22,14 @@
 
 \NewDocumentCommand{\NewMacro}{m m}{%
   \IfMacroT{#1}{%
-    \rtError{Macro is already defined}[Multiple definitions of macro #1 are present]%
+    \NewError{Macro is already defined}[Multiple definitions of macro #1 are present]%
   }%
   \DeclareMacro{#1}{#2}%
 }%
 
 \NewDocumentCommand{\RenewMacro}{m m}{%
   \IfMacroF{#1}{%
-    \rtError{Macro is not defined}[Macro #1 has not been defined yet]%
+    \NewError{Macro is not defined}[Macro #1 has not been defined yet]%
   }%
   \DeclareMacro{#1}{#2}%
 }%

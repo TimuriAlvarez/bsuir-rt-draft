@@ -1,0 +1,51 @@
+% ...
+
+\NewDocumentCommand{\IfBoolTF}{m m m}{%
+  \IfMacroTF{if#1}{#2}{#3}%
+}%
+
+\NewDocumentCommand{\IfBoolT}{m m}{%
+  \IfBoolTF{#1}{#2}{}%
+}%
+
+\NewDocumentCommand{\IfBoolF}{m m}{%
+  \IfBoolTF{#1}{}{#2}%
+}%
+
+\NewDocumentCommand{\DeclareBool}{m m}{%
+  \IfBoolF{#1}{\newbool{#1}}%
+  \setbool{#1}{#2}%
+}%
+
+\NewDocumentCommand{\ProvideBool}{m m}{%
+  \IfBoolF{#1}{\DeclareBool{#1}{#2}}%
+}%
+
+\NewDocumentCommand{\NewBool}{m m}{%
+  \IfBoolT{#1}{%
+    \NewError{Bool is already defined}[Multiple definitions of bool #1 are present]%
+  }%
+  \DeclareBool{#1}{#2}%
+}%
+
+\NewDocumentCommand{\RenewBool}{m m}{%
+  \IfBoolF{#1}{%
+    \NewError{Bool is not defined}[Bool #1 has not been defined yet]%
+  }%
+  \DeclareBool{#1}{#2}%
+}%
+
+\NewDocumentCommand{\IfBoolValueTF}{m m m}{%
+  \IfBoolF{#1}{%
+    \NewError{Bool is not defined}[Bool #1 has not been defined yet]%
+  }%
+  \ifbool{#1}{#2}{#3}%
+}%
+
+\NewDocumentCommand{\IfBoolValueT}{m m}{%
+  \IfBoolValueTF{#1}{#2}{}%
+}%
+
+\NewDocumentCommand{\IfBoolValueF}{m m}{%
+  \IfBoolValueTF{#1}{}{#2}%
+}

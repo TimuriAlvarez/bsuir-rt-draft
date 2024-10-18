@@ -1,0 +1,14 @@
+% ...
+
+\usepackage{xstring}
+
+\NewDocumentCommand{\rtHeadline}{O{} m O{}}{%
+  % @todo check #1, #2, #3 and their order
+  \IfStrEqCase{#1}{%
+    {HS}{#2}%
+    {H1}{#2}%
+    {H2}{#2}%
+    {H3}{#2}%
+    {H4}{#2}%
+  }[{\NewError{Invalid headline type}[#1 is not a valid headline type]}]%
+}%

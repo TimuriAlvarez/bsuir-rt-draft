@@ -1,5 +1,5 @@
 % ...
 
-\NewDocumentCommand{\rtError}{m O{}}{%
+\NewDocumentCommand{\NewError}{m O{}}{%
   \PackageError{bsuir-rt}{#1}{Possibly due to: \IfBlankTF{#2}{Unexplained case}{#2}.}%
 }%
