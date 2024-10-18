@@ -3,7 +3,7 @@ const L: char = '{';
 const R: char = '}';
 
 fn impl_path(project: &str) -> String {
-  format!("\\NewExpandableDocumentCommand{L}\\rtImplPath{R}{L}{R}{L}{project}{R}")
+  format!("\\def\\rtImplPath{L}{project}{R}")
 }
 
 fn manifest(build_dir: &str, subdir: &str) -> String {
@@ -11,7 +11,7 @@ fn manifest(build_dir: &str, subdir: &str) -> String {
 }
 
 fn impl_manifest() -> String {
-  format!("\\rtImplManifest{L}{R}")
+  format!("\\rtImplManifest{L}{R}\\undef\\rtImplPath")
 }
 
 fn pdf_latex(project: &str, build_dir: &str) {
