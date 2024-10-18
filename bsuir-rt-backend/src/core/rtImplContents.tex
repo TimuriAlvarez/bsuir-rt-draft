@@ -1,0 +1,9 @@
+% ...
+
+\NewDocumentCommand{\rtImplContents}{}{%
+  \NewMacro{rtImplInjectVault}{contents}%
+  \expandafter\ProcessList\expandafter{\rtImplContentsVault}{\rtImplInject}%
+  \UndeclareMacro{rtImplInjectVault}{}%
+}%
+
+\rtImplManifest{\rtImplContents}%

@@ -1,0 +1,9 @@
+% ...
+
+\NewDocumentCommand{\rtImplInject}{m}{%
+  \ProvideMacro{rtImplInjectVault}{}%
+  \IfBlankF{#1}{%
+    % @todo valiidate file path
+    \input{\IfBlankTF{\rtImplInjectVault}{}{\rtImplPath/\rtImplInjectVault/}#1}%
+  }%
+}%

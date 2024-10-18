@@ -1,0 +1,9 @@
+% ...
+
+\NewDocumentCommand{\rtImplAppendices}{}{%
+  \NewMacro{rtImplInjectVault}{pages}%
+  \expandafter\ProcessList\expandafter{\rtImplAppendicesVault}{\rtImplInject}%
+  \UndeclareMacro{rtImplInjectVault}{}%
+}%
+
+\rtImplManifest{\rtImplAppendices}%

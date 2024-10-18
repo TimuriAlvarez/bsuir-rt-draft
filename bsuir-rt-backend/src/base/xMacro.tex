@@ -1,0 +1,40 @@
+% ...
+
+\NewDocumentCommand{\IfMacroTF}{m m m}{%
+  \ifcsdef{#1}{#2}{#3}%
+}%
+
+\NewDocumentCommand{\IfMacroT}{m m}{%
+  \IfMacroTF{#1}{#2}{}%
+}%
+
+\NewDocumentCommand{\IfMacroF}{m m}{%
+  \IfMacroTF{#1}{}{#2}%
+}%
+
+\NewDocumentCommand{\DeclareMacro}{m m}{%
+  \csdef{#1}{#2}%
+}%
+
+\NewDocumentCommand{\ProvideMacro}{m m}{%
+  \IfMacroF{#1}{\DeclareMacro{#1}{#2}}%
+}%
+
+\NewDocumentCommand{\NewMacro}{m m}{%
+  \IfMacroT{#1}{%
+    \rtError{Macro is already defined}[Multiple definitions of macro #1 are present]%
+  }%
+  \DeclareMacro{#1}{#2}%
+}%
+
+\NewDocumentCommand{\RenewMacro}{m m}{%
+  \IfMacroF{#1}{%
+    \rtError{Macro is not defined}[Macro #1 has not been defined yet]%
+  }%
+  \DeclareMacro{#1}{#2}%
+}%
+
+\NewDocumentCommand{\UndeclareMacro}{m}{%
+  \RenewMacro{#1}{}%
+  \csundef{#1}%
+}

@@ -1,0 +1,11 @@
+% ...
+
+\NewDocumentCommand{\rtImplManifest}{m}{%
+  \ProvideMacro{rtImplManifestVault}{}%
+  \IfBlankTF{#1}{%
+    \begin{document}\rtImplManifestVault{}\leavevmode\end{document}%
+    \UndeclareMacro{rtImplManifestVault}%
+  }{%
+    \expandafter\def\expandafter\rtImplManifestVault\expandafter{\rtImplManifestVault#1}%
+  }%
+}%
