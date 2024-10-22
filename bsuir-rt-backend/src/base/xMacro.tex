@@ -37,7 +37,7 @@
 \NewDocumentCommand{\UndeclareMacro}{m}{%
   \RenewMacro{#1}{}%
   \csundef{#1}%
-}
+}%
 
 \NewDocumentCommand{\AppendMacro}{m m}{%
   \IfMacroF{#1}{%
