@@ -5,6 +5,7 @@ fn main() {
   let command: &str = args[1].as_str();
   let project: Option<&str> = args.get(2).map(|x: &String| x.as_str());
   match command {
+    "doxygen" => commands::doxygen(),
     "new" => commands::new(project.expect("Project name must be provided")),
     "build" => commands::build(project.expect("Project name must be provided")),
     _ => commands::invalid(command),

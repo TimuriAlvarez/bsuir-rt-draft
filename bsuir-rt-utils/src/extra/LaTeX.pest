@@ -1,0 +1,37 @@
+// Character sets
+NEWLINE    = _{ "\n" }
+WHITESPACE = _{ " " | "\t" }
+FORBIDDEN  = _{ "@" | "`" | "{" | "}" | "[" | "]" | "\\" }
+SPECIAL    = _{ '!'..'/' | ':'..'?' | "~" | "^" | "_" | "|" }
+NUMBER     = _{ '0'..'9' }
+UPPERCASE  = _{ 'A'..'Z' }
+LOWERCASE  = _{ 'a'..'z' }
+
+// Tokens
+DOXYFN  = @{ (LOWERCASE)+ }
+CMDNAME = @{ (LOWERCASE | UPPERCASE)+ }
+
+// Comments
+comment_string  = { (LOWERCASE | UPPERCASE | NUMBER | SPECIAL | FORBIDDEN)+ }
+comment_split   = { NEWLINE ~ "%" ~ comment_string }
+comment_regular = { "%" ~ comment_string* ~ comment_split* }
+comment_doxygen = { "%" ~ "@" ~ DOXYFN ~ comment_string* ~ comment_split* }
+comment         = { comment_doxygen | comment_regular }
+
+// Commands
+command_string      = { (LOWERCASE | UPPERCASE | NUMBER | SPECIAL)+ }
+command_split       = { "%" ~ NEWLINE }
+command_left        = { "{" }
+command_right       = { "}" }
+command_left_opt    = { "[" }
+command_right_opt   = { "]" }
+command_arg_content = { command_split* ~ (command_arg | command_impl | command_string) ~ command_split* }
+command_arg         = { (command_left ~ command_arg_content* ~ command_right) | (command_left_opt ~ command_arg_content* ~ command_right_opt) }
+command_impl        = { "\\" ~ CMDNAME ~ command_arg* }
+command             = { command_impl ~ (comment_regular | "%") }
+
+// Expressions
+expression = { (comment | command) ~ NEWLINE* }
+
+// Document
+document = { SOI ~ (expression)* ~ EOI }
