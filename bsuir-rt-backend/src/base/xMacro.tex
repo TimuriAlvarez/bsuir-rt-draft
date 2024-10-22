@@ -38,3 +38,10 @@
   \RenewMacro{#1}{}%
   \csundef{#1}%
 }
+
+\NewDocumentCommand{\AppendMacro}{m m}{%
+  \IfMacroF{#1}{%
+    \NewError{Macro is not defined}[Macro #1 has not been defined yet]%
+  }%
+  \csappto{#1}{#2}%
+}%
