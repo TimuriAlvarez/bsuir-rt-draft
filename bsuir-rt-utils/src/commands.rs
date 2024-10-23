@@ -65,7 +65,7 @@ pub fn build(project: &str) {
   }
   std::fs::create_dir_all(&build_dir).expect("Failed to create build directory");
   let bsuir_rt: String = bsuir_rt();
-  BSUIR_RT_DIRS.into_iter().for_each(|dir: &str| link(&format!("{bsuir_rt}-{dir}/src"), &format!("{build_dir}/{dir}")));
+  BSUIR_RT_DIRS.into_iter().for_each(|dir: &str| link(&format!("{bsuir_rt}-{dir}"), &format!("{build_dir}/{dir}")));
   latex::to_pdf(&project, &build_dir);
   std::fs::copy(format!("{build_dir}/manifest.pdf"), format!("{project}/{project}.pdf")).expect("Failed to copy manifest.pdf to project directory");
   std::fs::remove_dir_all(&build_dir).expect("Failed to remove build directory");
