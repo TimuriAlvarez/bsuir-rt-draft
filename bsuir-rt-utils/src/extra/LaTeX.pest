@@ -9,7 +9,6 @@ LOWERCASE  = _{ 'a'..'z' }
 
 // Tokens
 DOXYFN  = @{ (LOWERCASE)+ }
-CMDNAME = @{ (LOWERCASE | UPPERCASE)+ }
 
 // Comments
 comment_string  = { (LOWERCASE | UPPERCASE | NUMBER | SPECIAL | FORBIDDEN)+ }
@@ -19,16 +18,17 @@ comment_doxygen = { "%" ~ "@" ~ DOXYFN ~ comment_string* ~ comment_split* }
 comment         = { comment_doxygen | comment_regular }
 
 // Commands
-command_string      = { (LOWERCASE | UPPERCASE | NUMBER | SPECIAL)+ }
-command_split       = { "%" ~ NEWLINE }
-command_left        = { "{" }
-command_right       = { "}" }
-command_left_opt    = { "[" }
-command_right_opt   = { "]" }
-command_arg_content = { command_split* ~ (command_arg | command_impl | command_string) ~ command_split* }
-command_arg         = { (command_left ~ command_arg_content* ~ command_right) | (command_left_opt ~ command_arg_content* ~ command_right_opt) }
-command_impl        = { "\\" ~ CMDNAME ~ command_arg* }
-command             = { command_impl ~ (comment_regular | "%") }
+command_name        = @{ (LOWERCASE | UPPERCASE)+ }
+command_string      =  { (LOWERCASE | UPPERCASE | NUMBER | SPECIAL)+ }
+command_split       =  { "%" ~ NEWLINE }
+command_left        =  { "{" }
+command_right       =  { "}" }
+command_left_opt    =  { "[" }
+command_right_opt   =  { "]" }
+command_arg_content =  { command_split* ~ (command_arg | command_impl | command_string) ~ command_split* }
+command_arg         =  { (command_left ~ command_arg_content* ~ command_right) | (command_left_opt ~ command_arg_content* ~ command_right_opt) }
+command_impl        =  { "\\" ~ command_name ~ command_arg* }
+command             =  { command_impl ~ (comment_regular | "%") }
 
 // Expressions
 expression = { (comment | command) ~ NEWLINE* }
