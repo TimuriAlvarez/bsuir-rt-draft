@@ -1,5 +1,13 @@
-% ...
+% @file xError.tex
+% @brief Error extension for LaTeX.
+% @details Provides a uniform interface for handling errors.
 
+% @fn NewError
+% @brief Throws an error with a given message and optional explanation.
+% @param message The error message.
+% @param explanation The optional explanation of the error.
+% @todo Add submodule information.
+% @todo Add file information.
 \NewDocumentCommand{\NewError}{m O{}}{%
   \PackageError{bsuir-rt}{#1}{Possibly due to: \IfBlankTF{#2}{Unexplained case}{#2}.}%
 }%

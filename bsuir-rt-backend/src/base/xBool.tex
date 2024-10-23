@@ -1,26 +1,63 @@
-% ...
+% @file xBool.tex
+% @brief Boolean extension for LaTeX
+% @details Provides a uniform interface for handling booleans.
 
+% @fn IfBoolTF
+% @brief Checks if a boolean variable is defined and executes a corresponding block of code.
+% @param bool The name of the boolean variable.
+% @param true  The block of code to execute if the boolean variable is defined.
+% @param false The block of code to execute if the boolean variable is not defined.
+% @see IfMacroTF
+% @sa IfBoolT, IfBoolF
 \NewDocumentCommand{\IfBoolTF}{m m m}{%
   \IfMacroTF{if#1}{#2}{#3}%
 }%
 
+% @fn IfBoolT
+% @brief Checks if a boolean variable is defined and executes a block of code if it is, otherwise does nothing.
+% @param bool The name of the boolean variable.
+% @param true The block of code to execute if the boolean variable is defined.
+% @see IfBoolTF
+% @sa IfBoolF
 \NewDocumentCommand{\IfBoolT}{m m}{%
   \IfBoolTF{#1}{#2}{}%
 }%
 
+% @fn IfBoolT
+% @brief Checks if a boolean variable is defined and executes a block of code if it is not, otherwise does nothing.
+% @param bool The name of the boolean variable.
+% @param true The block of code to execute if the boolean variable is not defined.
+% @see IfBoolTF
+% @sa IfBoolT
 \NewDocumentCommand{\IfBoolF}{m m}{%
   \IfBoolTF{#1}{}{#2}%
 }%
 
+% @fn DeclareBool
+% @brief Defines a boolean variable regardless of whether it is already defined or not.
+% @param bool The name of the boolean variable.
+% @param value The value of the boolean variable.
+% @sa ProvideBool, NewBool, RenewBool
 \NewDocumentCommand{\DeclareBool}{m m}{%
   \IfBoolF{#1}{\newbool{#1}}%
   \setbool{#1}{#2}%
 }%
 
+% @fn ProvideBool
+% @brief Defines a boolean variable if it is not already defined, otherwise does nothing.
+% @param bool The name of the boolean variable.
+% @param value The value of the boolean variable.
+% @sa DeclareBool, NewBool, RenewBool
 \NewDocumentCommand{\ProvideBool}{m m}{%
   \IfBoolF{#1}{\DeclareBool{#1}{#2}}%
 }%
 
+% @fn NewBool
+% @brief Defines a boolean variable if it is not already defined, otherwise throws an error.
+% @param bool The name of the boolean variable.
+% @param value The value of the boolean variable.
+% @sa DeclareBool, ProvideBool, RenewBool
+% @error The boolean variable is already defined.
 \NewDocumentCommand{\NewBool}{m m}{%
   \IfBoolT{#1}{%
     \NewError{Bool is already defined}[Multiple definitions of bool #1 are present]%
@@ -28,6 +65,12 @@
   \DeclareBool{#1}{#2}%
 }%
 
+% @fn RenewBool
+% @brief Redefines a boolean variable if it is already defined, otherwise throws an error.
+% @param bool The name of the boolean variable.
+% @param value The value of the boolean variable.
+% @sa DeclareBool, ProvideBool, NewBool
+% @error The boolean variable is not defined.
 \NewDocumentCommand{\RenewBool}{m m}{%
   \IfBoolF{#1}{%
     \NewError{Bool is not defined}[Bool #1 has not been defined yet]%
@@ -35,6 +78,14 @@
   \DeclareBool{#1}{#2}%
 }%
 
+% @fn IfBoolValueTF
+% @brief Checks the value of a boolean variable and executes a corresponding block of code.
+% @param bool The name of the boolean variable.
+% @param true The block of code to execute if the boolean variable is true.
+% @param false The block of code to execute if the boolean variable is false.
+% @see IfBoolF
+% @sa IfBoolValueT, IfBoolValueF
+% @error The boolean variable is not defined.
 \NewDocumentCommand{\IfBoolValueTF}{m m m}{%
   \IfBoolF{#1}{%
     \NewError{Bool is not defined}[Bool #1 has not been defined yet]%
@@ -42,10 +93,22 @@
   \ifbool{#1}{#2}{#3}%
 }%
 
+% @fn IfBoolValueT
+% @brief Checks the value of a boolean variable and executes a block of code if it is true, otherwise does nothing.
+% @param bool The name of the boolean variable.
+% @param true The block of code to execute if the boolean variable is true.
+% @see IfBoolValueTF
+% @sa IfBoolValueF
 \NewDocumentCommand{\IfBoolValueT}{m m}{%
   \IfBoolValueTF{#1}{#2}{}%
 }%
 
+% @fn IfBoolValueF
+% @brief Checks the value of a boolean variable and executes a block of code if it is false, otherwise does nothing.
+% @param bool The name of the boolean variable.
+% @param false The block of code to execute if the boolean variable is false.
+% @see IfBoolValueTF
+% @sa IfBoolValueT
 \NewDocumentCommand{\IfBoolValueF}{m m}{%
   \IfBoolValueTF{#1}{}{#2}%
 }%

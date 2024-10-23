@@ -1,47 +1,121 @@
-% ...
+% @file xMacro.tex
+% @brief Macros extension for LaTeX.
+% @details Provides a uniform interface for handling macros.
 
+% @fn IfMacroTF
+% @brief Checks if a macro is defined and executes the corresponding block of code.
+% @param macro The name of the macro.
+% @param true The block of code to execute if the macro is defined.
+% @param false The block of code to execute if the macro is not defined.
+% @sa IfMacroT, IfMacroF
 \NewDocumentCommand{\IfMacroTF}{m m m}{%
   \ifcsdef{#1}{#2}{#3}%
 }%
 
+% @fn IfMacroT
+% @brief Checks if a macro is defined and executes a block of code if it is, otherwise does nothing.
+% @param macro The name of the macro.
+% @param true The block of code to execute if the macro is defined.
+% @see IfMacroTF
+% @sa IfMacroF
 \NewDocumentCommand{\IfMacroT}{m m}{%
   \IfMacroTF{#1}{#2}{}%
 }%
 
+% @fn IfMacroF
+% @brief Checks if a macro is defined and executes a block of code if it is not, otherwise does nothing.
+% @param macro The name of the macro.
+% @param false The block of code to execute if the macro is not defined.
+% @see IfMacroTF
+% @sa IfMacroT
 \NewDocumentCommand{\IfMacroF}{m m}{%
   \IfMacroTF{#1}{}{#2}%
 }%
 
+% @fn EnsureMacroUndefined
+% @brief Checks if a macro is not defined and throws an error if it is.
+% @param macro The name of the macro.
+% @see IfMacroT
+% @sa EnsureMacroDefined
+% @error The macro is defined.
+\NewDocumentCommand{\EnsureMacroUndefined}{m}{%
+  \IfMacroT{#1}{%
+    \NewError{Macro is defined}[Macro #1 has already been defined]%
+  }%
+}%
+
+% @fn EnsureMacroDefined
+% @brief Checks if a macro is defined and throws an error if it is not.
+% @param macro The name of the macro.
+% @see IfMacroF
+% @sa EnsureMacroUndefined
+% @error The macro is not defined.
+\NewDocumentCommand{\EnsureMacroDefined}{m}{%
+  \IfMacroF{#1}{%
+    \NewError{Macro is not defined}[Macro #1 has not been defined yet]%
+  }%
+}%
+
+% @fn DeclareMacro
+% @brief Defines a macro regardless of whether it is already defined or not.
+% @param macro The name of the macro.
+% @param value The value of the macro.
+% @sa ProvideMacro, NewMacro, RenewMacro, UndeclareMacro
 \NewDocumentCommand{\DeclareMacro}{m m}{%
   \csdef{#1}{#2}%
 }%
 
+% @fn ProvideMacro
+% @brief Defines a macro if it is not already defined, otherwise does nothing.
+% @param macro The name of the macro.
+% @param value The value of the macro.
+% @sa DeclareMacro, NewMacro, RenewMacro, UndeclareMacro
 \NewDocumentCommand{\ProvideMacro}{m m}{%
   \IfMacroF{#1}{\DeclareMacro{#1}{#2}}%
 }%
 
+% @fn NewMacro
+% @brief Defines a macro if it is not already defined, otherwise throws an error.
+% @param macro The name of the macro.
+% @param value The value of the macro.
+% @see EnsureMacroUndefined
+% @sa ProvideMacro, DeclareMacro, RenewMacro, UndeclareMacro
+% @error The macro is already defined.
 \NewDocumentCommand{\NewMacro}{m m}{%
-  \IfMacroT{#1}{%
-    \NewError{Macro is already defined}[Multiple definitions of macro #1 are present]%
-  }%
+  \EnsureMacroUndefined{#1}%
   \DeclareMacro{#1}{#2}%
 }%
 
+% @fn RenewMacro
+% @brief Defines a macro if it is not already defined, otherwise throws an error.
+% @param macro The name of the macro.
+% @param value The value of the macro.
+% @see EnsureMacroDefined
+% @sa ProvideMacro, DeclareMacro, NewMacro, UndeclareMacro
+% @error The macro is not defined.
 \NewDocumentCommand{\RenewMacro}{m m}{%
-  \IfMacroF{#1}{%
-    \NewError{Macro is not defined}[Macro #1 has not been defined yet]%
-  }%
+  \EnsureMacroDefined{#1}%
   \DeclareMacro{#1}{#2}%
 }%
 
+% @fn UndeclareMacro
+% @brief Removes a macro definition if it is defined, otherwise throws an error.
+% @param macro The name of the macro.
+% @see EnsureMacroDefined
+% @sa DeclareMacro, ProvideMacro, NewMacro, RenewMacro
+% @error The macro is not defined.
 \NewDocumentCommand{\UndeclareMacro}{m}{%
-  \RenewMacro{#1}{}%
+  \EnsureMacroDefined{#1}%
   \csundef{#1}%
 }%
 
+% @fn AppendMacro
+% @brief Appends a value to a macro if it is defined, otherwise throws an error.
+% @param macro The name of the macro.
+% @param value The value to append to the macro.
+% @see EnsureMacroDefined
+% @error The macro is not defined.
 \NewDocumentCommand{\AppendMacro}{m m}{%
-  \IfMacroF{#1}{%
-    \NewError{Macro is not defined}[Macro #1 has not been defined yet]%
-  }%
+  \EnsureMacroDefined{#1}%
   \csappto{#1}{#2}%
 }%
