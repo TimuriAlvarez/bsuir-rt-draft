@@ -1,14 +1,14 @@
 // Character sets
 NEWLINE    = _{ "\n" }
 WHITESPACE = _{ " " | "\t" }
-FORBIDDEN  = _{ "@" | "`" | "{" | "}" | "[" | "]" | "\\" }
-SPECIAL    = _{ '!'..'/' | ':'..'?' | "~" | "^" | "_" | "|" }
+FORBIDDEN  = _{ "@" | "`" | "{" | "}" | "[" | "]" | "\\" | "%" }
+SPECIAL    = _{ '!'..'$' | '&'..'@' | ':'..'?' | "~" | "^" | "_" | "|" }
 NUMBER     = _{ '0'..'9' }
 UPPERCASE  = _{ 'A'..'Z' }
 LOWERCASE  = _{ 'a'..'z' }
 
 // Tokens
-DOXYFN  = @{ (LOWERCASE)+ }
+DOXYFN = @{ (LOWERCASE)+ }
 
 // Comments
 comment_string  = { (LOWERCASE | UPPERCASE | NUMBER | SPECIAL | FORBIDDEN)+ }
