@@ -1,18 +1,19 @@
 // Character sets
-NEWLINE    = _{ "\n" }
-WHITESPACE = _{ " " | "\t" }
-FORBIDDEN  = _{ "@" | "`" | "{" | "}" | "[" | "]" | "\\" | "%" }
-SPECIAL    = _{ '!'..'$' | '&'..'@' | ':'..'?' | "~" | "^" | "_" | "|" }
-NUMBER     = _{ '0'..'9' }
-UPPERCASE  = _{ 'A'..'Z' }
-LOWERCASE  = _{ 'a'..'z' }
+NEWLINE           = _{ "\n" }
+WHITESPACE        = _{ " " | "\t" }
+_STRICKTLY_FORBID = _{ "`" | "%" }
+SOFTLY_FORBID     = _{ "@" | "{" | "}" | "[" | "]" | "\\" }
+SPECIAL           = _{ '!'..'$' | '&'..'/' | ':'..'?' | "~" | "^" | "_" | "|" }
+NUMBER            = _{ '0'..'9' }
+UPPERCASE         = _{ 'A'..'Z' }
+LOWERCASE         = _{ 'a'..'z' }
 
 // Tokens
 DOXYFN = @{ (LOWERCASE)+ }
 
 // Comments
-comment_string  = { (LOWERCASE | UPPERCASE | NUMBER | SPECIAL | FORBIDDEN)+ }
-comment_split   = { NEWLINE ~ "%" ~ comment_string }
+comment_string  = { (LOWERCASE | UPPERCASE | NUMBER | SPECIAL | SOFTLY_FORBID)+ }
+comment_split   = { NEWLINE ~ comment }
 comment_regular = { "%" ~ comment_string* ~ comment_split* }
 comment_doxygen = { "%" ~ "@" ~ DOXYFN ~ comment_string* ~ comment_split* }
 comment         = { comment_doxygen | comment_regular }
@@ -20,7 +21,7 @@ comment         = { comment_doxygen | comment_regular }
 // Commands
 command_name        = @{ (LOWERCASE | UPPERCASE)+ }
 command_string      =  { (LOWERCASE | UPPERCASE | NUMBER | SPECIAL)+ }
-command_split       =  { "%" ~ NEWLINE }
+command_split       =  { comment ~ NEWLINE }
 command_left        =  { "{" }
 command_right       =  { "}" }
 command_left_opt    =  { "[" }
