@@ -1,12 +1,8 @@
 // Character sets
-NEWLINE           = _{ "\n" }
 WHITESPACE        = _{ " " | "\t" }
 _STRICKTLY_FORBID = _{ "`" | "%" }
 SOFTLY_FORBID     = _{ "@" | "{" | "}" | "[" | "]" | "\\" }
 SPECIAL           = _{ '!'..'$' | '&'..'/' | ':'..'?' | "~" | "^" | "_" | "|" }
-NUMBER            = _{ '0'..'9' }
-UPPERCASE         = _{ 'A'..'Z' }
-LOWERCASE         = _{ 'a'..'z' }
 
 // Tokens
 DOXYFN = @{ (LOWERCASE)+ }
