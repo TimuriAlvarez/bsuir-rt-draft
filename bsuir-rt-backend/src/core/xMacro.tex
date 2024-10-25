@@ -132,3 +132,41 @@
   \EnsureMacroDefined{#1}%
   \csappto{#1}{#2}%
 }%
+
+% @fn IfMacroValueTF
+% @brief Checks if a macro's value equals to a given value and the corresponding block of code, throws an error if the macro is not defined.
+% @param macro The name of the macro.
+% @param value The value to compare with the macro's value.
+% @param true The block of code to execute if macro's value equals to the given value.
+% @param false The block of code to execute if macro's value does not equal to the given value.
+% @see EnsureMacroDefined
+% @sa IfMacroValueT, IfMacroValueF
+% @error The macro is not defined.
+\NewDocumentCommand{\IfMacroValueTF}{m m m m}{%
+  \EnsureMacroDefined{#1}%
+  \ifcsstring{#1}{#2}{#3}{#4}%
+}%
+
+% @fn IfMacroValueT
+% @brief Checks if a macro's value equals to a given value and executes a block of code if it is, otherwise does nothing, throws an error if the macro is not defined.
+% @param macro The name of the macro.
+% @param value The value to compare with the macro's value.
+% @param true The block of code to execute if macro's value equals to the given value.
+% @see IfMacroValueTF
+% @sa IfMacroValueF
+% @error The macro is not defined.
+\NewDocumentCommand{\IfMacroValueT}{m m m}{%
+  \IfMacroValueTF{#1}{#2}{#3}{}%
+}%
+
+% @fn IfMacroValueF
+% @brief Checks if a macro's value equals to a given value and executes a block of code if it is not, otherwise does nothing, throws an error if the macro is not defined.
+% @param macro The name of the macro.
+% @param value The value to compare with the macro's value.
+% @param false The block of code to execute if macro's value does not equal to the given value.
+% @see IfMacroValueTF
+% @sa IfMacroValueT
+% @error The macro is not defined.
+\NewDocumentCommand{\IfMacroValueF}{m m m}{%
+  \IfMacroValueTF{#1}{#2}{}{#3}%
+}%
