@@ -112,6 +112,16 @@
   \csundef{#1}%
 }%
 
+% @fn MacroValue
+% @brief Returns a value of a macro if it is defined, otherwise throws an error.
+% @param macro The name of the macro.
+% @see EnsureMacroDefined
+% @error The macro is not defined.
+\NewDocumentCommand{\MacroValue}{m}{%
+  \EnsureMacroDefined{#1}%
+  \csuse{#1}%
+}%
+
 % @fn AppendMacro
 % @brief Appends a value to a macro if it is defined, otherwise throws an error.
 % @param macro The name of the macro.
